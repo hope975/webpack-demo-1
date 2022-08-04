@@ -1,21 +1,21 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin'); //通过 npm 安装
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+
+const base = require('./webpack.config.base.js')
 
 module.exports = {
-    mode: 'development',
-    entry: './src/index.js', //注意入口的路径问题
-    output: {
-        filename: '[name].[contenthash].js' //注意出口要配置hash表
+    ...base,
+    devtool: "inline-source-map",
+    devServer: {
+        contentBase: "./dist"
     },
-    plugins: [new HtmlWebpackPlugin({
-        title: '首页',
-        template: 'src/assets/index.html'
-    })],
     module: {
         rules: [
+            ...base.module.rules,
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"]
             }
         ]
     }
